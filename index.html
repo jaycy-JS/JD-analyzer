@@ -371,6 +371,12 @@ function saveProfile() {
   SS.setItem('jda_profile', JSON.stringify({name, career, resume, skills}));
   document.getElementById('bar-name').textContent = name;
   goV(2);
+  const pending = SS.getItem('jda_pending_jd');
+  if (pending) {
+    document.getElementById('jd-text').value = pending;
+    SS.removeItem('jda_pending_jd');
+    showA('p2-alert','ao','북마클릿으로 가져온 공고가 자동으로 채워졌어요. 확인 후 분석하기를 눌러주세요.');
+  }
 }
 
 function loadProfile() {
@@ -410,7 +416,7 @@ function readURLParams() {
   if (jd && jd.trim().length > 10) {
     const p = loadProfile();
     if (p) {
-      document.getElementById('jd-text').value = decodeURIComponent(jd);
+      document.getElementById('jd-text').value = jd;
       goV(2);
       showA('p2-alert', 'ao', '북마클릿으로 공고 내용을 가져왔어요. 확인 후 분석하기를 눌러주세요.');
     } else {

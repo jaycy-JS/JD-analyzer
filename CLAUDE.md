@@ -22,7 +22,9 @@ JD-analyzer/
 ├── CLAUDE.md           # 이 파일
 ├── README.md           # 사용자용 문서
 ├── docs/
-│   └── adr.md          # Architecture Decision Records
+│   ├── adr.md          # Architecture Decision Records
+│   ├── qa-plan.md      # QA 테스트 케이스 정의 (QA 에이전트가 읽음)
+│   └── qa-log.md       # QA 실행 결과 누적 기록
 └── .gitignore
 ```
 
