@@ -253,13 +253,35 @@ textarea{resize:vertical;line-height:1.6}
 주요 업무 · 자격요건 · 우대사항이 포함될수록 분석 정확도가 높아져요."></textarea>
     </div>
 
+    <details style="margin-bottom:.9rem" id="bookmarklet-section">
+      <summary style="font-size:13px;color:var(--accent);cursor:pointer;padding:.5rem 0;user-select:none;font-weight:500">
+        ⚡ 북마클릿으로 한 번에 가져오기 (추천)
+      </summary>
+      <div class="card" style="margin-top:.5rem;margin-bottom:0">
+        <p style="font-size:13px;color:#444;line-height:1.7;margin-bottom:12px">
+          채용 공고 페이지에서 클릭 한 번으로 공고 내용이 자동으로 이 곳에 채워집니다.<br>
+          원티드·잡코리아·사람인·LinkedIn 등 <strong>모든 플랫폼</strong>에서 동작합니다.
+        </p>
+        <div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px">설치 방법</div>
+        <ol style="font-size:13px;color:#444;line-height:2;padding-left:1.2rem;margin-bottom:12px">
+          <li>아래 버튼을 <strong>북마크바로 드래그</strong>하거나, 버튼 우클릭 → 북마크에 추가</li>
+          <li>분석하고 싶은 채용 공고 페이지로 이동</li>
+          <li>북마크바에서 <strong>JD 분석기</strong> 클릭 → 자동으로 공고 내용이 채워짐</li>
+        </ol>
+        <a id="bookmarklet-btn" href="" class="btn bp" style="display:inline-flex;margin-bottom:10px" onclick="return false" title="이 버튼을 북마크바로 드래그하세요">
+          📋 JD 분석기
+        </a>
+        <div style="font-size:11px;color:var(--hint)">북마크바가 안 보이면: Chrome 기준 Ctrl+Shift+B (Mac: ⌘+Shift+B)</div>
+      </div>
+    </details>
+
     <details style="margin-bottom:.9rem">
       <summary style="font-size:13px;color:var(--muted);cursor:pointer;padding:.5rem 0;user-select:none">
         URL로 불러오기 (실험적 · 대부분 차단됨)
       </summary>
       <div class="card" style="margin-top:.5rem;margin-bottom:0">
         <div style="font-size:12px;color:var(--amber);background:var(--amber-bg);border:1px solid var(--amber-border);border-radius:var(--r);padding:8px 12px;margin-bottom:10px">
-          원티드·잡코리아·사람인·LinkedIn 등 주요 플랫폼은 보안 정책으로 자동 차단됩니다. 차단 시 위 붙여넣기를 이용해주세요.
+          원티드·잡코리아·사람인·LinkedIn 등 주요 플랫폼은 보안 정책으로 자동 차단됩니다. 위 북마클릿을 이용해주세요.
         </div>
         <div style="display:flex;gap:8px">
           <input type="url" id="jd-url" placeholder="https://www.rocketpunch.com/jobs/..." style="flex:1">
@@ -366,8 +388,45 @@ window.onload = () => {
     ta.value = p.resume || '';
     document.getElementById('bar-name').textContent = p.name || '–';
   }
+  setupBookmarklet();
+  readURLParams();
   refreshHistory();
 };
+
+function setupBookmarklet() {
+  const appURL = window.location.href.split('?')[0];
+  const bm = `javascript:(function(){
+    var t=document.body.innerText.replace(/\\s+/g,' ').trim().slice(0,6000);
+    var w=window.open('${appURL}?jd='+encodeURIComponent(t),'_blank');
+    if(!w)alert('팝업이 차단됐어요. 이 사이트의 팝업을 허용해주세요.');
+  })();`;
+  const btn = document.getElementById('bookmarklet-btn');
+  if (btn) btn.href = bm;
+}
+
+function readURLParams() {
+  const params = new URLSearchParams(window.location.search);
+  const jd = params.get('jd');
+  if (jd && jd.trim().length > 10) {
+    const p = loadProfile();
+    if (p) {
+      document.getElementById('jd-text').value = decodeURIComponent(jd);
+      goV(2);
+      showA('p2-alert', 'ao', '북마클릿으로 공고 내용을 가져왔어요. 확인 후 분석하기를 눌러주세요.');
+    } else {
+      document.getElementById('p-resume-direct').value = '';
+      showA('p1-alert', 'aw', '공고 내용을 가져왔어요. 프로필을 먼저 등록해주세요.');
+      SS.setItem('jda_pending_jd', jd);
+    }
+    window.history.replaceState({}, '', window.location.pathname);
+  } else {
+    const pending = SS.getItem('jda_pending_jd');
+    if (pending) {
+      document.getElementById('jd-text').value = pending;
+      SS.removeItem('jda_pending_jd');
+    }
+  }
+}
 
 /* ── FILE UPLOAD ── */
 function onDrag(e, active) { e.preventDefault(); document.getElementById('drop-zone').classList.toggle('drag', active); }
