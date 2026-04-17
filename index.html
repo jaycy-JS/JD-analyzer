@@ -182,11 +182,11 @@ textarea{resize:vertical;line-height:1.6}
       <div class="clabel">기본 정보</div>
       <div class="fg">
         <label class="fl">이름 · 현재 포지션</label>
-        <input type="text" id="p-name" placeholder="홍길동 · PM @ 엔카닷컴">
+        <input type="text" id="p-name" placeholder="이름 · 현재 직책 @ 회사명">
       </div>
       <div class="fg">
         <label class="fl">연차 · 커리어 방향</label>
-        <input type="text" id="p-career" placeholder="PM 5년차 · 플랫폼/B2C · 데이터 기반 의사결정 강점">
+        <input type="text" id="p-career" placeholder="예: PM 3년차 · 커머스/플랫폼 · 데이터 기반 의사결정 강점">
       </div>
     </div>
 
@@ -218,10 +218,10 @@ textarea{resize:vertical;line-height:1.6}
       <textarea id="p-resume-direct" rows="7" placeholder="이력서 또는 경력기술서를 여기에 붙여넣어 주세요.
 
 예시)
-- 현직: 엔카닷컴 Platform Strategy PM (2024.03~)
-  · SEO/GEO 최적화, 채팅 리드 생성, NPS 계측, 검색·필터 개편
-- 전직: 숨고 PO
-  · 광고 BM MVP 기획, 공급자 전환율 개선"></textarea>
+- 현직: OO회사 Product Manager (2022.03~)
+  · 신규 기능 기획 및 출시, 전환율 15% 개선, A/B 테스트 설계·운영
+- 전직: △△스타트업 서비스기획자
+  · 앱 리뉴얼 기획, MAU 2배 성장 기여, 사용자 인터뷰 50건 수행"></textarea>
     </div>
 
     <div class="card">
@@ -511,7 +511,9 @@ appeals 3개, warnings 3개, guides 4개 필수.`;
     renderResult(d);
   } catch(e) {
     document.getElementById('result-loading').innerHTML =
-      `<p style="color:var(--red)">오류: ${e.message}</p><p style="font-size:13px;margin-top:8px;color:var(--muted)">다시 시도해보세요.</p>`;
+      `<p style="color:var(--red);font-size:14px;margin-bottom:6px">분석 중 오류가 발생했어요</p>
+       <p style="font-size:13px;color:var(--muted);margin-bottom:1.5rem">${e.message}<br>JD 내용을 줄이거나 잠시 후 다시 시도해보세요.</p>
+       <button class="btn bg" onclick="goV(2)" style="margin:0 auto">← JD 입력으로 돌아가기</button>`;
   }
   btn.disabled = false;
   document.getElementById('btn-txt').textContent = '분석하기';
