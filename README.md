@@ -2,7 +2,7 @@
 
 이력서를 등록하고 채용 공고(JD)를 입력하면 **매칭 점수 · 어필 포인트 · 서류 통과 가이드**를 자동으로 분석해주는 웹 도구입니다.
 
-**라이브 데모 →** `https://jaycy-JS.github.io/jd-analyzer`
+**라이브 데모 →** `https://jaycy-JS.github.io/JD-analyzer`
 
 ---
 
@@ -23,7 +23,7 @@
 별도 설치 불필요. 파일을 브라우저로 열면 바로 실행됩니다.
 
 ```bash
-git clone https://github.com/jaycy-JS/jd-analyzer.git
+git clone https://github.com/jaycy-JS/JD-analyzer.git
 cd jd-analyzer
 open index.html   # macOS
 # 또는 index.html을 브라우저로 드래그
@@ -35,7 +35,7 @@ open index.html   # macOS
 
 레포 → Settings → Pages → Branch: `main` / `/ (root)` → Save
 
-저장 후 약 1분 뒤 `https://jaycy-JS.github.io/jd-analyzer` 에서 접근 가능합니다.
+저장 후 약 1분 뒤 `https://jaycy-JS.github.io/JD-analyzer` 에서 접근 가능합니다.
 
 ---
 
